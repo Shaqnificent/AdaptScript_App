@@ -6,12 +6,33 @@ interface RouterProps {
     navigation: NavigationProp<any, any>;
 }
 const Compiler=({navigation}: RouterProps)=> {
-    const [code, setCode] = useState('')
+    const [code, setCode] = useState('')  
     const [consoleLog, setConsoleLog] = useState('')
     const Title= "Adapt/Script>"
 
     const Compiler =async () => {
-        alert(code)
+    
+        try {
+            const apiUrl = "http://127.0.0.1:5000/execute"; // Replace with your API endpoint
+            const requestBody = {
+              code: code,
+            };
+      
+            const response = await fetch(apiUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(requestBody),
+            });
+      
+            const responseData = await response.json();
+            setConsoleLog(JSON.stringify(responseData.result[0]|| responseData.error));
+          } catch (error) {
+            console.error('Error making POST request:', error);
+            setConsoleLog('Error making POST request');
+          }
+        
     }
     
 
@@ -20,7 +41,7 @@ const Compiler=({navigation}: RouterProps)=> {
             <Text style={styles.Title} >{Title}</Text>
             <View style={{backgroundColor: "grey", padding:5}}>
                 <TextInput value={code} style={styles.code} multiline={true} numberOfLines={6} placeholder='' autoCapitalize='none' onChangeText={(text)=> setCode(text)}></TextInput>
-                <Text style={{backgroundColor:"#3E3E3E", height:75}}>{consoleLog}</Text>
+                <Text style={{backgroundColor:"#3E3E3E", height:75, padding:5, color: "white"}}>{consoleLog}</Text>
                 <Pressable style={styles.buttonRun} onPress={() => Compiler()} >
                     <Text style={styles.text}>Run</Text>
                 </Pressable> 
