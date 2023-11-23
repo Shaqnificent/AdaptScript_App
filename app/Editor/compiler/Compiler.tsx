@@ -13,7 +13,7 @@ const Compiler=({navigation}: RouterProps)=> {
     const Compiler =async () => {
     
         try {
-            const apiUrl = "http://127.0.0.1:5000/execute"; // Replace with your API endpoint
+            const apiUrl = "https://adaptscript-app-server.onrender.com/execute"; // Replace with your API endpoint
             const requestBody = {
               code: code,
             };
