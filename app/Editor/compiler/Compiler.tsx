@@ -2,6 +2,9 @@ import {View, Text, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAv
 import React, { useState } from 'react'
 import { NavigationProp } from '@react-navigation/native'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import SyntaxHighlighter from './SyntaxHighligter';
+import { Vibration } from 'react-native';
+
 interface RouterProps {
     navigation: NavigationProp<any, any>;
 }
@@ -11,9 +14,8 @@ const Compiler=({navigation}: RouterProps)=> {
     const Title= "Adapt/Script>"
 
     const Compiler =async () => {
-    
         try {
-            const apiUrl = "https://adaptscript-app-server.onrender.com/execute"; // Replace with your API endpoint
+            const apiUrl = "https://adaptscript-app-server.onrender.com/execute"; // api endpoint is on render platform
             const requestBody = {
               code: code,
             };
@@ -27,7 +29,7 @@ const Compiler=({navigation}: RouterProps)=> {
             });
       
             const responseData = await response.json();
-            setConsoleLog(JSON.stringify(responseData.result[0]|| responseData.error));
+            setConsoleLog(JSON.stringify(responseData.result|| responseData.error))
           } catch (error) {
             console.error('Error making POST request:', error);
             setConsoleLog('Error making POST request');
@@ -39,15 +41,32 @@ const Compiler=({navigation}: RouterProps)=> {
     return(
         <View style={styles.container}>
             <Text style={styles.Title} >{Title}</Text>
+            <Text style={{fontSize: 10, 
+              color: "white",
+               backgroundColor: "black", 
+               paddingLeft: 16, 
+              }}>Please Enter a space after each keyword
+            </Text>
             <View style={{backgroundColor: "grey", padding:5}}>
-                <TextInput value={code} style={styles.code} multiline={true} numberOfLines={6} placeholder='' autoCapitalize='none' onChangeText={(text)=> setCode(text)}></TextInput>
+                {/* <TextInput value={code} style={styles.code} multiline={true} numberOfLines={6} placeholder='' autoCapitalize='none' onChangeText={(text)=> setCode(text)}></TextInput> */}
+                <SyntaxHighlighter 
+                  code={code} 
+                  onChange={(newCode) => setCode(newCode)}
+                />
                 <Text style={{backgroundColor:"#3E3E3E", height:75, padding:5, color: "white"}}>{consoleLog}</Text>
-                <Pressable style={styles.buttonRun} onPress={() => Compiler()} >
+                <Pressable style={styles.buttonRun} onPress={() =>{
+                    Compiler()
+                    Vibration.vibrate(100)
+                    }
+                }>
                     <Text style={styles.text}>Run</Text>
                 </Pressable> 
             </View>
-            
-            <Pressable style={styles.button} onPress={() => navigation.navigate('Editor') } >
+            <Pressable style={styles.button} onPress={() =>{
+                Vibration.vibrate(100)
+                navigation.navigate('Editor') 
+                }
+            }>
                 <Text style={styles.text}>Close Editor</Text>
             </Pressable>  
         </View>
@@ -60,7 +79,7 @@ const styles = StyleSheet.create({
     container: {
         marginHorizontal: 20,
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     code: {
         marginVertical: 4,
@@ -69,7 +88,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: 'black',
         color: 'white',
-        minHeight: 200
+        minHeight: 200,
     },
 
     button: {
