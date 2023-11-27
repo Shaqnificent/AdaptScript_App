@@ -10,6 +10,7 @@ import {
   View,
   Button,
   Pressable,
+  Vibration
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 interface RouterProps {
@@ -29,36 +30,36 @@ interface Lesson{
 const start: Lesson = {
   title: "Getting Started with AdaptScript",
   text: "AdaptScript is a programming language that is designed to be easy to learn and use. It is a high-level language, meaning it is a language that is closer to human languages than computer languages. AdaptScript is a language that is designed to be easy to learn and use. It is a high-level language, meaning it is a language that is closer to human languages than computer languages. AdaptScript is a language that is designed to be easy to learn and use. It is a high-level language, meaning it is a language that is closer to human languages than computer languages.",
-  example: "func init() {\n\tprint(\"Hello World\")\n}"
+  example: "func init() {\n\tprint(\'Hello World\')\n}"
 }
 
 const variables: Lesson = {
   title: "Variables",
   text: "Variables are used to store information to be referenced and manipulated in AdapScript program. They also provide a way of labeling data with a descriptive name, so our programs can be understood more clearly by the reader and ourselves. It is helpful to think of variables as containers that hold information. Their sole purpose is to label and store data in memory. This data can then be used throughout your program.",
-  example: " func init() {\n\tstring name = \"AdaptScript\"\n}"
+  example: " func init() {\n\tstr name = \"AdaptScript\"\n}"
 }
 
 const input: Lesson = {
   title: "Input",
   text: "AdaptScript supports the following input methods: input(). This takes and assigns an input to a variable",
-  example: "func init(){\n\tstring name = input()\n\tprint(name)\n}"
+  example: "func init(){\n\tstr name = input()\n\tprint (name)\n}"
 }
 const arithmetic: Lesson = {
   title: "Arithmetic",
   text: "AdaptScript supports the following arithmetic operators: +, -, *, /,. AdaptScript also supports the following assignment operators: ++,--.",
-  example: "func init(){ \n\tint a = 5\n\tint b = 10\n\tint c = a + b\n\tprint(c)\n}"
+  example: "func init(){ \n\tint a = 5\n\tint b = 10\n\tint c = a + b\n\tprint (c)\n}"
 }
 
 const functions: Lesson = {
   title: "Functions",
   text: "AdaptScript also supports functional programming paradigm which is now a common means in the software development field",
-  example: "func init(){\n \t sum(int a,int b):int{\n \treturn a+b\n}\n\tprint(sum(5,10))\n}"
+  example: "func init(){\n \t sum(int a,int b):int{\n \treturn a+b\n}\n\tprint (sum(5,10))\n}"
 }
 
 const loops: Lesson = {
   title: "For Loop and While loops",
   text: "Iteration Constructions are used to execute a block of statements repeatedly. AdaptScript supports the following iteration constructs: for loop, while loop.",
-  example: "func init(){\n\tfor(int i = 0; i < 10; i++){\n\t\tprint(i)\n\t}\n  \tint i = 0\n\twhile(i < 10){\n\t\tprint(i)\n\t\ti++\n\t}\n}"
+  example: "func init(){\n\tfor (int i = 0; i < 10; i++){\n\t\tprint (i)\n\t}\n  \tint i = 0\n\twhile (i < 10){\n\t\tprint (i)\n\t\ti++\n\t}\n}"
 }
 let lessons: Lesson[] = [start, variables, input,arithmetic, functions, loops]
 
@@ -107,7 +108,11 @@ function Progress({navigation}: RouterProps): JSX.Element {
                 <Pressable style={styles.buttonContinue} onPress={() => null } >
                     <Text style={styles.text}>Continue</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={() => navigation.navigate('Compiler')} >
+                <Pressable style={styles.button} onPress={() =>{
+                  Vibration.vibrate(100)
+                  navigation.navigate('Compiler') 
+                  }
+                } >
                     <Text style={styles.text}>Try</Text>
                 </Pressable>
               </View>

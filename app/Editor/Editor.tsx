@@ -1,4 +1,4 @@
-import {View, Text, Button, StyleSheet, Pressable} from 'react-native'
+import {View, Text, Button, StyleSheet, Pressable,Vibration} from 'react-native'
 import React from 'react'
 import { NavigationProp } from '@react-navigation/native'
 import Progress from './progress/Progress';
@@ -12,7 +12,11 @@ const Editor=({navigation}: RouterProps) => {
     <View style={{flex: 1, justifyContent: "flex-end"}}>
             <Text style={styles.Title} >{Title}</Text>
             <Progress navigation={navigation} />
-            <Pressable style={styles.button} onPress={() => navigation.navigate('Menu')} >
+            <Pressable style={styles.button} onPress={() =>{
+                Vibration.vibrate(100)
+                navigation.navigate('Menu') 
+                }
+            }>
                 <Text style={styles.text}>Close Editor</Text>
             </Pressable>          
         </View>
