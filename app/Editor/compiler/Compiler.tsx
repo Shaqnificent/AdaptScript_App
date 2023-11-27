@@ -12,7 +12,7 @@ const Compiler=({navigation}: RouterProps)=> {
     const [code, setCode] = useState('')  
     const [consoleLog, setConsoleLog] = useState('')
     const Title= "Adapt/Script>"
-
+    const split = consoleLog.split('/n')
     const Compiler =async () => {
         try {
             const apiUrl = "https://adaptscript-app-server.onrender.com/execute"; // api endpoint is on render platform
@@ -29,7 +29,7 @@ const Compiler=({navigation}: RouterProps)=> {
             });
       
             const responseData = await response.json();
-            setConsoleLog(JSON.stringify(responseData.result|| responseData.error))
+            setConsoleLog(JSON.parse(JSON.stringify(responseData.result||responseData.error)))
           } catch (error) {
             console.error('Error making POST request:', error);
             setConsoleLog('Error making POST request');
@@ -53,7 +53,9 @@ const Compiler=({navigation}: RouterProps)=> {
                   code={code} 
                   onChange={(newCode) => setCode(newCode)}
                 />
-                <Text style={{backgroundColor:"#3E3E3E", height:75, padding:5, color: "white"}}>{consoleLog}</Text>
+                <Text style={{backgroundColor:"#3E3E3E", height:75, padding:5, color: "white"}}>
+                  {split[0]}
+                </Text>
                 <Pressable style={styles.buttonRun} onPress={() =>{
                     Compiler()
                     Vibration.vibrate(100)
